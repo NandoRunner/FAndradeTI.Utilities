@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // As informações gerais sobre um assembly são controladas por
 // conjunto de atributos. Altere estes valores de atributo para modificar as informações
 // associada a um assembly.
-[assembly: AssemblyTitle("FAndradeTI.Util.FileSystem")]
-[assembly: AssemblyDescription("File System Utilities")]
+[assembly: AssemblyTitle("FAndradeTI.Util.Firebase")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Fernando Andrade (NandoRunner)")]
-[assembly: AssemblyProduct("FAndradeTI.Util.FileSystem")]
-[assembly: AssemblyCopyright("MIT License Copyright (c) 2020 Fernando Andrade")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("FAndradeTI.Util.Firebase")]
+[assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // O GUID a seguir será destinado à ID de typelib se este projeto for exposto para COM
-[assembly: Guid("024ebf21-4c3e-4ba0-af79-2ede68936b0f")]
+[assembly: Guid("b48d4be4-4388-4653-957c-f2ed0df5cf3f")]
 
 // As informações da versão de um assembly consistem nos quatro valores a seguir:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // É possível especificar todos os valores ou usar como padrão os Números de Build e da Revisão
 // usando o "*" como mostrado abaixo:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.8")]
-[assembly: AssemblyFileVersion("1.0.8")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

@@ -33,7 +33,7 @@ namespace FAndradeTI.Util.FileSystem
 
         public static void RunVSCode(string path)
         {
-            Run("code.exe", path);
+            Run("code", path);
         }
 
         public static void RunExplorer(string path)

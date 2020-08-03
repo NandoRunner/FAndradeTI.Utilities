@@ -102,11 +102,9 @@ namespace FAndradeTI.Util.FileSystem
             File.Copy(filePath, aux, true);
         }
 
-        public static void CopyFileIfNewer(string filePath, string copyPath)
+        public static bool CopyFileIfNewer(string filePath, string copyPath)
         {
-            //var aux = filePath.Replace(Path.GetDirectoryName(filePath), copyPath);
-
-            //File.Copy(filePath, aux, true);
+            var ret = false;
 
             FileInfo file = new FileInfo(filePath);
             FileInfo destFile = new FileInfo(Path.Combine(copyPath, file.Name));
@@ -116,12 +114,16 @@ namespace FAndradeTI.Util.FileSystem
                 {
                     // now you can safely overwrite it
                     file.CopyTo(destFile.FullName, true);
+                    ret = true;
                 }
             }
             else
             {
                 file.CopyTo(destFile.FullName, true);
+                ret = true;
             }
+
+            return ret;
         }
 
         public static string ParseFileName(string fileName)
