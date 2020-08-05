@@ -50,6 +50,27 @@ namespace FAndradeTI.Util.FileSystem
             return File.GetCreationTime(fileName).ToShortDateString();
         }
 
+        public static string GetFolder(string path, string description)
+        {
+            var ret = path;
+
+            using (FolderBrowserDialog diag = new FolderBrowserDialog
+            {
+                Description = description,
+                SelectedPath = path
+            })
+            {
+                DialogResult result = diag.ShowDialog();
+
+                if (result == DialogResult.OK)
+                    ret = diag.SelectedPath;
+            }
+
+            return ret;
+        }
+
+
+
         public static string GetFile(string fileName, string title, string filter, string initialDir)
         {
             var ret = fileName;
