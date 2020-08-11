@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Security.Permissions;
+using System.Text;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
@@ -13,6 +16,18 @@ namespace FAndradeTI.Util.FileSystem
         public static string LastErrorMethod { get; set; }
 
         public static string LastErrorMessage { get; set; }
+
+        public static void CreateEmptyFile(string filename, bool json = true)
+        {
+            using (var output = new StreamWriter(filename, false, Encoding.GetEncoding(28591))) 
+            { 
+                if (json)
+                {
+                    output.WriteLine("{");
+                    output.WriteLine("}");
+                }
+            }
+        }
 
         public static void CreateFolder(string path)
         {
@@ -34,7 +49,6 @@ namespace FAndradeTI.Util.FileSystem
             File.Delete(path);
         }
 
-
         public static string[] GetFiles(string path, string extension)
         {
             return Directory.GetFiles(path, extension);
@@ -43,6 +57,11 @@ namespace FAndradeTI.Util.FileSystem
         public static string GetFileName(string fileName)
         {
             return Path.GetFileName(fileName);
+        }
+
+        public static string GetFolderName(string fileName)
+        {
+            return Path.GetDirectoryName(fileName);
         }
 
         public static string GetCreationTime(string fileName)
@@ -65,11 +84,8 @@ namespace FAndradeTI.Util.FileSystem
                 if (result == DialogResult.OK)
                     ret = diag.SelectedPath;
             }
-
             return ret;
         }
-
-
 
         public static string GetFile(string fileName, string title, string filter, string initialDir)
         {
@@ -91,19 +107,34 @@ namespace FAndradeTI.Util.FileSystem
             return ret;
         }
 
-        public static string PathCombine(string path, string folder)
+        public static string PathCombine(string path1, string path2)
         {
-            return Path.Combine(path, folder);
+            return Path.Combine(path1, path2);
         }
 
-        public static void MoveFile(string fileName, string path, string movePath)
+        public static void MoveFile(string sourceFile, string targetFile)
+        {
+            if (sourceFile == null)
+            {
+                throw new ArgumentNullException(nameof(sourceFile));
+            }
+
+            if (targetFile == null)
+            {
+                throw new ArgumentNullException(nameof(targetFile));
+            }
+
+            File.Move(sourceFile, targetFile);
+        }
+
+        public static void MoveFile(string fileName, string sourcePath, string targetPath)
         {
             if (fileName == null)
             {
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            var filePath = fileName.Replace(path, movePath);
+            var filePath = fileName.Replace(sourcePath, targetPath);
 
             if (File.Exists(filePath))
                 File.Delete(filePath);
