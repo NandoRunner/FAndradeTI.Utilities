@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Net;
 using System.Net.Mail;
 
@@ -7,38 +6,40 @@ namespace FAndradeTI.Util.Network
 {
     public class EmailManager
     {
-        private readonly string from;
-        private readonly string host;
-        private readonly string port;
-        private readonly string pwd;
+        private readonly string _fromEmail;
+        private readonly string _fromName;
+        private readonly string _host;
+        private readonly int _port;
+        private readonly string _pwd;
 
         public static string LastErrorMethod { get; set; }
 
         public static string LastErrorMessage { get; set; }
 
-        public EmailManager(string from, string host, string port, string pwd)
+        public EmailManager(string fromEmail, string fromName, string host, int port, string pwd)
         {
-            this.from = from;
-            this.host = host;
-            this.port = port;
-            this.pwd = pwd;
+            _fromEmail = fromEmail;
+            _fromName = fromName;
+            _host = host;
+            _port = port;
+            _pwd = pwd;
         }
 
-        public bool Send(string subject, string body, string to)
+        public bool Send(string subject, string body, string toEmail, string toName)
         {
             try
             {
-                using (SmtpClient client = new SmtpClient(host, int.Parse(port, CultureInfo.CurrentCulture))
+                var smtpClient = new SmtpClient(_host)
                 {
-                    Credentials = new NetworkCredential(from, pwd),
+                    Port = _port,
+                    Credentials = new NetworkCredential(_fromEmail, _pwd),
                     EnableSsl = true
-                })
-                {
-                    client.Send(from, to, subject, body);
-                }
+                };
+
+                smtpClient.Send(_fromEmail, toEmail, subject, body);
                 return true;
             }
-            catch (SmtpException ex)
+            catch (Exception ex)
             {
                 LastErrorMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
                 LastErrorMessage = ex.Message;
