@@ -26,21 +26,24 @@ namespace FAndradeTI.Util.FileSystem
             }
         }
 
-        public static void RunGitBash(string path)
-        {
-            Run(@"C:\Program Files\Git\usr\bin\bash.exe", path, " --login -i ");
-        }
-
-        public static void RunVSCode(string path)
-        {
-            Run("code", path);
-        }
-
         public static void RunExplorer(string path)
         {
             Run("explorer.exe", path);
         }
 
+        public static void RunGitBash(string path)
+        {
+            Run(@"C:\Program Files\Git\usr\bin\bash.exe", path, " --login -i ");
+        }
+
+        public static void RunGitClone(string path, string args)
+        {
+            Run("git", path, $" clone {args}");
+        }
+        public static void RunVSCode(string path)
+        {
+            Run("code", path);
+        }
         private static void Run(string command, string args)
         {
             Run(command, null, args);
@@ -56,6 +59,5 @@ namespace FAndradeTI.Util.FileSystem
             };
             Process.Start(proc);
         }
-
     }
 }
