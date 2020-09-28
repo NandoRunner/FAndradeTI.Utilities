@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FAndradeTI.Util.FileSystem
 {
     public static class ProcManager
     {
+        public static string Message { get; private set; }
+
         public static void KillExcelFileProcess()
         {
             KillFileProcess("EXCEL");
@@ -31,33 +30,67 @@ namespace FAndradeTI.Util.FileSystem
             Run("explorer.exe", path);
         }
 
-        public static void RunGitBash(string path)
+        public static bool RunGitBash(string path)
         {
-            Run(@"C:\Program Files\Git\usr\bin\bash.exe", path, " --login -i ");
+            var ret = false;
+            try
+            {
+                Run("bash.exe", path, " --login -i ");
+                ret = true;
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+            return ret;
         }
 
         public static void RunGitClone(string path, string args)
         {
-            Run("git", path, $" clone {args}");
+            Run("git.exe", path, $" clone {args}");
         }
-        public static void RunVSCode(string path)
+        public static bool RunVSCode(string path)
         {
-            Run("code", path);
+            var ret = false;
+            try
+            {
+                Run("code.exe", path);
+                ret = true;
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+            return ret;
         }
         private static void Run(string command, string args)
         {
-            Run(command, null, args);
+            try
+            {
+                Run(command, null, args);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         private static void Run(string command, string path = null, string args = null)
         {
-            var proc = new ProcessStartInfo
+            try
             {
-                FileName = command,
-                Arguments = args,
-                WorkingDirectory = path
-            };
-            Process.Start(proc);
+                var proc = new ProcessStartInfo
+                {
+                    FileName = command,
+                    Arguments = args,
+                    WorkingDirectory = path
+                };
+                Process.Start(proc);
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
