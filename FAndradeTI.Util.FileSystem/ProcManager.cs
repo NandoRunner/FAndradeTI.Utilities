@@ -30,12 +30,12 @@ namespace FAndradeTI.Util.FileSystem
             Run("explorer.exe", path);
         }
 
-        public static bool RunGitBash(string path)
+        public static bool RunGitBash(string workingDir)
         {
             var ret = false;
             try
             {
-                Run("bash.exe", path, " --login -i ");
+                Run("bash.exe", " --login -i ", workingDir);
                 ret = true;
             }
             catch (Exception ex)
@@ -45,16 +45,27 @@ namespace FAndradeTI.Util.FileSystem
             return ret;
         }
 
-        public static void RunGitClone(string path, string args)
-        {
-            Run("git.exe", path, $" clone {args}");
-        }
-        public static bool RunVSCode(string path)
+        public static bool RunGitClone(string workingDir, string args)
         {
             var ret = false;
             try
             {
-                Run("code.exe", path);
+                Run("git.exe", $" clone {args}", workingDir);
+                ret = true;
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+            return ret;
+
+        }
+        public static bool RunVisualStudio(string command)
+        {
+            var ret = false;
+            try
+            {
+                Run(command, null, null);
                 ret = true;
             }
             catch (Exception ex)
@@ -63,27 +74,43 @@ namespace FAndradeTI.Util.FileSystem
             }
             return ret;
         }
+
+        public static bool RunVSCode(string path)
+        {
+            var ret = false;
+            try
+            {
+                Run("code", path);
+                ret = true;
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+            return ret;
+        }
+
         private static void Run(string command, string args)
         {
             try
             {
-                Run(command, null, args);
+                Run(command, args, null);
             }
             catch
             {
                 throw;
             }
         }
-
-        private static void Run(string command, string path = null, string args = null)
+        private static void Run(string command, string args, string workingDir)
         {
             try
             {
                 var proc = new ProcessStartInfo
                 {
                     FileName = command,
+                    WorkingDirectory = workingDir,
                     Arguments = args,
-                    WorkingDirectory = path
+                    WindowStyle = ProcessWindowStyle.Maximized
                 };
                 Process.Start(proc);
             }
