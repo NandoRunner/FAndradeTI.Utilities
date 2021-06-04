@@ -116,11 +116,18 @@ namespace FAndradeTI.Util.Firebase
 
             try
             {
+                // todo: testar 
+                //  var document = await collection.Document().CreateAsync(obj).ConfigureAwait(true);
+                // FAA
                 CollectionReference collection = db.Collection(collectionPath);
                 var document = await collection.AddAsync(obj).ConfigureAwait(true);
                 ret = document.Id;
             }
             catch (ProtocolException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
